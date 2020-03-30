@@ -32,7 +32,12 @@ $ sudo apt-get install git
 
 #### 5.将本地代码上传到github上
 
-1. link远程分支
+1. github上创建仓库
+2. git remote add origin url
+3. git commit
+4. git push -u origin master
+
+
 
 
 
