@@ -1,0 +1,55 @@
+# Jmeter
+
+##  安装运行
+
+1. 下载
+
+   地址：https://jmeter.apache.org/download_jmeter.cgi
+
+2. 安装
+
+   1. 下载完成后加压
+
+   ![image-20200924173353979](img/Jmeter/image-20200924173353979.png)
+
+   2. 添加环境变量
+
+      1. 新建系统变量JMETER_HOME
+
+         ![image-20200924173246808](img/Jmeter/image-20200924173246808.png)
+
+      2. 新建classpath系统变量（如果有不需要新建，添加就行了）
+
+         ![image-20200924173330807](img/Jmeter/image-20200924173330807.png)
+
+         %JMETER_HOME%\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib/logkit-2.0.jar; 
+
+3. 运行
+
+   找到bin目录下的jmeter.bat,双击打开就能运行了
+
+## 使用
+
+1. 创建线程组
+
+   ![image-20200925095347786](img/Jmeter/image-20200925095347786.png)
+
+   200个线程循环100次，调用请求
+
+2. 创建http请求
+
+   ![image-20200925095429111](img/Jmeter/image-20200925095429111.png)
+
+3. 点击上面小绿标启动就行了![image-20200925095507831](img/Jmeter/image-20200925095507831.png)
+
+
+
+## 技巧
+
+1. 选择语言
+
+   ![image-20200925101524425](img/Jmeter/image-20200925101524425.png)
+
+2. 查看结果
+
+   

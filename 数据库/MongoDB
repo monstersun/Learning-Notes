@@ -1,0 +1,199 @@
+# MongoDB
+
+## 安装及配置
+
+### 下载
+
+下载地址： https://www.mongodb.com/try/download/community
+
+不用注册什么的，直接选择community版本的MongoDB就行
+
+### 安装
+
+1. 安装类型选择custom
+
+![image-20210225073632624](img/image-20210225073632624.png)
+
+2. 选择路径
+
+   ![image-20210225073719062](img/image-20210225073719062.png)
+
+3. 选择安装方式以及数据库及日志文件位置
+
+   ![image-20210225074008984](img/image-20210225074008984.png)
+
+   Data Directory: 数据库文件位置
+
+   Log Directory: 日志文件位置
+
+   这一步是mongo4.x之后才有的，如果没有的话，需要在安装完成后手动创建两个位置，在服务管理中将服务设置为系统服务
+
+4. 不选择图形化界面
+
+   ![image-20210225074110444](img/image-20210225074110444.png)
+
+### 配置
+
+1. 配置环境变量
+
+   将mongo的bin目录地址放入path中
+
+### 验证
+
+1. 打开cmd窗口
+
+2. 输入mongo
+
+   ![image-20210225074933647](img/image-20210225074933647.png)
+
+## 基本概念
+
+1. 数据库（database): 数据库中放集合
+2. 集合: 类似数组，在集合中放文档
+3. 文档：放置具体数据
+
+![image-20210225075302376](img/image-20210225075302376.png)
+
+## 基本操作
+
+```shell
+# 查询数据库
+show databases
+show dbs
+# 进入数据库（同mysql）
+use [database-name] # 数据库不一定需要存在，如果数据库不存在，在第一次存入数据的时候创建数据库
+# 查询当前所在数据库
+db
+# 查询当前数据库中的集合
+show collections
+# CRUD
+db.[collection-name].insert({obj}) # 向集合中插入一条对象
+db.[collection-name].find() # 查找集合中所有的文档
+```
+
+## CRUD
+
+### 插入
+
+```shell
+db.collection.insert();
+db.collection.insertMany();
+db.collection.insertOne();
+```
+
+### 删除
+
+```shell
+db.collection.remove();
+db.numbers.deleteMany({nums: {$lte: 10}});
+db.collection.deleteOne();
+# 传参插入条件Criteria和查询中的条件类似
+```
+
+### 修改
+
+```shell
+# update 默认值修改一个， 需要修改多个需要加入{multi: 1}做为第三个位置的参数
+db.collection.update();
+db.collection.updateOne();
+db.collection.updateMany();
+
+# 第一个参数均为条件参数，类似查询的条件
+# 第二个参数是修改内容，可以使全量修改，也可以使用操作符
+# $set | $unset
+db.collection.update({....}, {$set: {key:value,.....}}); # set是只修改部分属性
+db.collection.update({....}, {$unset: {key:1,.....}});
+
+# $push | $addToSet
+db.collection.update({....}, {$push: listValue}) # 往列表中加入数据不管是不是重复的
+db.collection.update({....}, {$addToSet: listValue}) # 往列表中加入数据并且如果已经存在就不加入保重元素的唯一性
+
+# $each
+db.collection.update({....}, {$addToSet: {$each: [listValue...]}})
+db.collection.update({....}, {$push: {$each: [listValue...]}})
+
+# $pop | $pullAll | $pull
+db.collection.update({....}, {$pop: {list: 1/-1});
+ { $pull: { <field1>: <value|condition>, <field2>: <value|condition>, ... } }
+db.collection.update({....}, {$pullAll: {list: [.....]}})
+```
+
+
+
+### 查询
+
+![image-20210310072910989](img/image-20210310072910989.png)
+
+```shell
+db.collection.find();
+db.collection.findOne();
+db.collection.findMany();
+# 条件查询-确定属性
+db.collection.find({nums:5000});
+
+# 条件查询-模糊匹配
+db.collection.find({name: /sw/});
+
+# 条件查询-比大小操作符
+db.collection.find({nums: {$gt: 500}});
+db.collection.find({nums: {$gte: 500}});
+db.collection.find({nums: {$lte: 500}});
+db.collection.find({nums: {$lt: 50, $gt:40}});
+# 分页查询，limit查询条数，skip是偏移量
+db.collection.find().limit(10);
+db.collection.find().skip(20).limit(10);
+
+var user_id = db.user.findOne({})
+```
+
+```shell
+# 批量插入
+# 插入单个
+# 根据某个属性批量删除
+# 根据某个属性单个删除
+# 根据某个属性模糊删除
+# 根据某个属性批量修改
+# 根据某个属性修改单个
+# 增加属性
+# 往列表属性中插入一个值
+# 往列表属性中插入一组值
+# 删除列表中的指定值
+# 删除列表中的指定位置的值
+# 删除列表中符合某种规则的值
+# 删除列表属性
+# 分页查询
+# 条件查询
+# 条件模糊查询
+# 数字查询比较操作符
+# 排序
+# 投影
+# 关系型数据搭建
+# 根据部门名称查询所有的员工
+# 给财务部的每名会计增加400元收入
+# 查找所有的员工的经理 
+```
+
+
+
+## 关系
+
+关系同sql型数据库
+
+
+
+
+
+## Sort和投影
+
+```shell
+# sort 只能1和-1指定正序或逆序
+db.collection.find().sort({name: 1, other:-1, ...})
+
+# 投影，只查询部分字段
+db.collection.find({}, {ename:1, _id:0})
+```
+
+
+
+## Jedis
+
